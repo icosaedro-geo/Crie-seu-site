@@ -1,347 +1,343 @@
-<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Construa Seu Site</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #F7F8FC;
-      color: #010300;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      flex-direction: column;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca de Sites - Criar e Gerenciar</title>
+    <style>
+        /* Paleta de cores */
+        :root {
+            --primary-color: #f2eabc;
+            --secondary-color: #54736e;
+            --accent-color: #ff3b58;
+            --dark-color: #194756;
+            --background-color: #080000;
+        }
 
-    .container {
-      width: 80%;
-      max-width: 900px;
-      background-color: #BBDEC6;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      text-align: center;
-    }
-
-    h1 {
-      font-size: 32px;
-      color: #314C53;
-      margin-bottom: 20px;
-    }
-
-    #projectNameInput {
-      padding: 10px;
-      font-size: 16px;
-      width: 100%;
-      max-width: 400px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      border: 2px solid #5A7F78;
-    }
-
-    .explode {
-      animation: explode 0.8s forwards;
-    }
-
-    .zoomIn {
-      animation: zoomIn 1s ease-in-out forwards;
-    }
-
-    @keyframes explode {
-      0% {
-        transform: scale(1);
-        opacity: 1;
-      }
-      25% {
-        transform: scale(1.2);
-        opacity: 0.7;
-      }
-      50% {
-        transform: scale(0.8);
-        opacity: 0.5;
-      }
-      75% {
-        transform: scale(1.5);
-        opacity: 0.3;
-      }
-      100% {
-        transform: scale(0);
-        opacity: 0;
-      }
-    }
-
-    @keyframes zoomIn {
-      0% {
-        transform: scale(0);
-        opacity: 0;
-      }
-      100% {
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
-
-    #htmlEditor {
-      width: 100%;
-      height: 300px;
-      padding: 10px;
-      margin: 10px 0;
-      background-color: #F7F8FC;
-      color: #010300;
-      border: 2px solid #5A7F78;
-      border-radius: 5px;
-      font-size: 16px;
-      font-family: 'Courier New', Courier, monospace;
-      resize: none;
-      white-space: pre-wrap;
-      overflow-y: auto;
-      display: none;
-    }
-
-    button {
-      padding: 10px 15px;
-      font-size: 16px;
-      color: #fff;
-      background-color: #314C53;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      margin: 10px;
-      transition: 0.3s;
-    }
-
-    button:hover {
-      background-color: #5A7F78;
-    }
-
-    button:focus {
-      outline: none;
-    }
-
-    .project-title {
-      font-size: 24px;
-      color: #314C53;
-      margin-top: 20px;
-    }
-
-    /* Estilo do botão de apoio */
-    .support-button {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background-color: #5A7F78;
-      color: white;
-      padding: 15px;
-      font-size: 30px;
-      border-radius: 50%;
-      cursor: pointer;
-      box-shadow: 0 0 10px rgba(90, 127, 120, 0.6);
-      transition: 0.3s;
-      z-index: 9999;
-      animation: pulsate 2s infinite;
-    }
-
-    .support-button:hover {
-      background-color: #314C53;
-    }
-
-    /* Animação de pulsação do botão */
-    @keyframes pulsate {
-      0% {
-        transform: scale(1);
-        box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
-      }
-      50% {
-        transform: scale(1.1);
-        box-shadow: 0 0 20px rgba(0, 255, 0, 1);
-      }
-      100% {
-        transform: scale(1);
-        box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
-      }
-    }
-
-    /* Estilo para o botão de testar site */
-    #testButton {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #BBDEC6;
-      color: #010300;
-      padding: 12px 20px;
-      font-size: 16px;
-      border-radius: 5px;
-      cursor: pointer;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      transition: 0.3s;
-    }
-
-    #testButton:hover {
-      background-color: #5A7F78;
-    }
-
-    /* Estilo para a mensagem de apoio */
-    #supportMessage {
-      display: none;
-      position: fixed;
-      top: 20%;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: #BBDEC6;
-      color: #010300;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-      text-align: center;
-      z-index: 100;
-      width: 70%;
-      max-width: 400px;
-    }
-
-    #supportMessage button {
-      margin-top: 15px;
-      background-color: #314C53;
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    #supportMessage button:hover {
-      background-color: #5A7F78;
-    }
-  </style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: var(--background-color);
+            color: #fff;
+        }
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+        }
+        h2 {
+            color: var(--primary-color);
+        }
+        .view {
+            display: none;
+        }
+        .visible {
+            display: block;
+        }
+        button {
+            padding: 10px 15px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            background-color: var(--secondary-color);
+            color: #fff;
+            border: 2px solid var(--secondary-color);
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            background-color: #333;
+            color: #fff;
+            border: 1px solid var(--secondary-color);
+            border-radius: 5px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        #site-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        #site-list li {
+            margin-bottom: 10px;
+            background-color: var(--secondary-color);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        #site-list li span {
+            color: #fff;
+        }
+        .delete-btn, .edit-btn {
+            background-color: var(--accent-color);
+            border: none;
+            color: #fff;
+            padding: 5px 10px;
+            margin-left: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .delete-btn:hover, .edit-btn:hover {
+            background-color: var(--dark-color);
+        }
+        /* Estilos para o botão de apoiador */
+        #support-button {
+            width: 50px;
+            height: 50px;
+            background-color: var(--accent-color);
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            color: white;
+            text-align: center;
+            line-height: 50px;
+            cursor: pointer;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+        }
+        /* Estilos para a mensagem de apoio */
+        #support-message {
+            display: none;
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--secondary-color);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+            font-size: 16px;
+        }
+        #support-message button {
+            margin-top: 10px;
+            background-color: var(--accent-color);
+            border: none;
+            color: #fff;
+            padding: 5px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        #support-message button:hover {
+            background-color: var(--dark-color);
+        }
+    </style>
 </head>
 <body>
 
-  <div class="container">
-    <h1>Construa Seu Site</h1>
+    <!-- Tela Inicial -->
+    <div id="library-view" class="view visible">
+        <header>
+            <h1>Biblioteca de Sites</h1>
+            <button id="create-new-site">Criar Novo Site</button>
+        </header>
+        <section>
+            <h2>Sites Criados</h2>
+            <ul id="site-list">
+                <!-- Lista de Sites Salvos -->
+            </ul>
+        </section>
+    </div>
 
-    <!-- Formulário para nomear o projeto -->
-    <input type="text" id="projectNameInput" placeholder="Dê um nome ao seu projeto" maxlength="16" />
-    <button onclick="startProject()">Iniciar Projeto</button>
+    <!-- Tela de Criação de Novo Site -->
+    <div id="create-site-view" class="view">
+        <header>
+            <h1>Criar Novo Site</h1>
+            <button id="back-to-library">Voltar para Biblioteca</button>
+        </header>
+        <section>
+            <label for="project-name">Nome do Projeto</label>
+            <input type="text" id="project-name" placeholder="Digite o nome do seu projeto">
+        </section>
+        <section>
+            <h2 id="project-title"></h2>
+            <textarea id="html-code" placeholder="Escreva seu código HTML aqui..."></textarea>
+        </section>
+        <section>
+            <button id="save-project">Salvar Projeto</button>
+            <button id="test-project">Testar Projeto</button>
+            <button id="download-project">Fazer Download</button>
+            <button id="reset-script">Resetar Script</button>
+        </section>
+    </div>
 
-    <!-- Título do Projeto -->
-    <div id="projectTitle" class="project-title"></div>
+    <!-- Visualização do Projeto (Testar) -->
+    <div id="test-site-view" class="view">
+        <header>
+            <h1>Visualizar o Site</h1>
+            <button id="back-to-editor">Voltar ao Editor</button>
+        </header>
+        <iframe id="site-preview" width="100%" height="600px"></iframe>
+    </div>
 
-    <!-- Editor de código (inicialmente escondido) -->
-    <textarea id="htmlEditor" placeholder="Digite seu código HTML aqui..."></textarea>
+    <!-- Caixa de Mensagem do Apoiador -->
+    <div id="support-message">
+        <p>Você poderia apoiar o criador do site? Obrigado!</p>
+        <p><strong>Chave Pix: 513197db-499f-4fcc-9648-d481567340ba</strong></p>
+        <button id="close-support-message">Voltar</button>
+    </div>
 
-    <button onclick="saveProject()">Salvar Projeto</button>
-  </div>
+    <!-- Botão de Apoiador -->
+    <button id="support-button">◇</button>
 
-  <!-- Botão de Apoiadores -->
-  <div id="supportButton" class="support-button">
-    ♡
-  </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const createNewSiteButton = document.getElementById('create-new-site');
+            const backToLibraryButton = document.getElementById('back-to-library');
+            const saveProjectButton = document.getElementById('save-project');
+            const testProjectButton = document.getElementById('test-project');
+            const downloadProjectButton = document.getElementById('download-project');
+            const resetScriptButton = document.getElementById('reset-script');
+            const backToEditorButton = document.getElementById('back-to-editor');
+            const siteList = document.getElementById('site-list');
+            const projectNameInput = document.getElementById('project-name');
+            const htmlCodeTextarea = document.getElementById('html-code');
+            const projectTitle = document.getElementById('project-title');
+            const sitePreview = document.getElementById('site-preview');
+            const supportButton = document.getElementById('support-button');
+            const supportMessage = document.getElementById('support-message');
+            const closeSupportMessageButton = document.getElementById('close-support-message');
 
-  <!-- Botão de Testar Site -->
-  <button id="testButton" onclick="testProject()">Testar Site</button>
+            let savedSites = [];
+            let currentSite = null;
 
-  <!-- Mensagem de apoio -->
-  <div id="supportMessage">
-    <p>Você poderia apoiar o criador do site com qualquer valor! Obrigado!</p>
-    <p><strong>Chave Pix:</strong> 513197db-499f-4fcc-9648-d481567340ba</p>
-    <button onclick="closeSupportMessage()">Fechar</button>
-  </div>
+            // Funções de Tela
+            function showLibraryView() {
+                document.getElementById('library-view').classList.add('visible');
+                document.getElementById('create-site-view').classList.remove('visible');
+                document.getElementById('test-site-view').classList.remove('visible');
+                resetCreateSiteView();
+            }
 
-  <script>
-    // Função para iniciar o projeto
-    function startProject() {
-      const projectName = document.getElementById('projectNameInput').value;
-      if (projectName) {
-        if (projectName.length > 16) {
-          alert("O nome do projeto não pode ter mais de 16 caracteres!");
-          return;
-        }
+            function showCreateSiteView() {
+                document.getElementById('create-site-view').classList.add('visible');
+                document.getElementById('library-view').classList.remove('visible');
+                document.getElementById('test-site-view').classList.remove('visible');
+            }
 
-        // Título do projeto
-        document.getElementById('projectTitle').innerText = `Projeto: ${projectName}`;
+            function showTestSiteView() {
+                document.getElementById('test-site-view').classList.add('visible');
+                document.getElementById('create-site-view').classList.remove('visible');
+                sitePreview.srcdoc = htmlCodeTextarea.value; // Carregar o código HTML no iframe
+            }
 
-        // Animação de explosão do campo de nome
-        document.getElementById('projectNameInput').classList.add('explode');
-        document.querySelector('button').classList.add('explode');
+            // Limpar os campos ao criar novo site
+            function resetCreateSiteView() {
+                projectNameInput.value = '';
+                htmlCodeTextarea.value = '';
+                projectTitle.textContent = '';
+                currentSite = null;
+            }
 
-        // Esperar a animação terminar para esconder o campo de nome
-        setTimeout(function() {
-          document.getElementById('projectNameInput').style.display = 'none';
-          document.querySelector('button').style.display = 'none';
+            // Renderizar a lista de sites
+            function renderSiteList() {
+                siteList.innerHTML = '';
+                savedSites.forEach((site, index) => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <span>${site.name}</span>
+                        <button class="delete-btn" data-index="${index}">Deletar</button>
+                        <button class="edit-btn" data-index="${index}">Editar</button>
+                    `;
+                    siteList.appendChild(li);
+                });
 
-          // Animação de zoom-in do editor de código
-          const editor = document.getElementById('htmlEditor');
-          editor.style.display = 'block';
-          editor.classList.add('zoomIn');
-        }, 800);
-      } else {
-        alert("Por favor, insira um nome para o projeto!");
-      }
-    }
+                // Adicionar event listeners para os botões de editar e deletar
+                document.querySelectorAll('.delete-btn').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const index = event.target.getAttribute('data-index');
+                        deleteSite(index);
+                    });
+                });
 
-    // Função para salvar o projeto
-    function saveProject() {
-      const htmlContent = document.getElementById('htmlEditor').value;
-      const projectName = document.getElementById('projectNameInput').value;
+                document.querySelectorAll('.edit-btn').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const index = event.target.getAttribute('data-index');
+                        editSite(index);
+                    });
+                });
+            }
 
-      if (projectName && htmlContent) {
-        const blob = new Blob([htmlContent], { type: "text/html" });
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = `${projectName}.html`;
-        link.click();
-        alert("Projeto salvo com sucesso!");
-      } else {
-        alert("Por favor, nomeie o projeto e escreva algo no código!");
-      }
-    }
+            // Deletar site
+            function deleteSite(index) {
+                savedSites.splice(index, 1);
+                renderSiteList();
+                resetCreateSiteView();  // Limpar as informações do site deletado
+            }
 
-    // Função para testar o site
-    function testProject() {
-      const htmlContent = document.getElementById('htmlEditor').value;
+            // Editar site
+            function editSite(index) {
+                const site = savedSites[index];
+                projectNameInput.value = site.name;
+                htmlCodeTextarea.value = site.html;
+                projectTitle.textContent = site.name;
+                currentSite = site;
+                showCreateSiteView();
+            }
 
-      if (htmlContent) {
-        const newWindow = window.open();
-        newWindow.document.open();
-        newWindow.document.write(`
-          <html>
-            <head>
-              <title>Projeto Testado</title>
-              <style>
-                body { font-family: 'Courier New', Courier, monospace; background-color: #f5f5f5; color: #333; }
-              </style>
-            </head>
-            <body>
-              ${htmlContent}
-            </body>
-          </html>
-        `);
-        newWindow.document.close();
-      } else {
-        alert("Por favor, escreva algum código HTML antes de testar!");
-      }
-    }
+            // Função para salvar o projeto
+            function saveProject() {
+                const projectName = projectNameInput.value;
+                const htmlCode = htmlCodeTextarea.value;
+                if (projectName && htmlCode) {
+                    if (currentSite) {
+                        // Se estamos editando um site existente
+                        currentSite.name = projectName;
+                        currentSite.html = htmlCode;
+                    } else {
+                        // Caso seja um novo site
+                        const newProject = { name: projectName, html: htmlCode };
+                        savedSites.push(newProject);
+                    }
+                    renderSiteList();
+                    showLibraryView();
+                }
+            }
 
-    // Função para exibir a mensagem de apoio
-    document.getElementById('supportButton').onclick = function() {
-      document.getElementById('supportMessage').style.display = 'block';
-    };
+            // Resetar o script (limpar os campos)
+            function resetScript() {
+                resetCreateSiteView(); // Limpar campos
+                // Manter na tela de criação de site sem voltar para a biblioteca
+            }
 
-    // Função para fechar a mensagem de apoio
-    function closeSupportMessage() {
-      document.getElementById('supportMessage').style.display = 'none';
-    }
-    
+            // Função para salvar o site como arquivo HTML
+            function downloadProject() {
+                const blob = new Blob([htmlCodeTextarea.value], { type: 'text/html' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = `${projectNameInput.value}.html`;
+                link.click();
+            }
 
-    // Exibir a mensagem de apoio a cada 20 minutos (1200000 milissegundos)
-    setInterval(function() {
-      document.getElementById('supportMessage').style.display = 'block';
-    }, 1200000);
-  </script>
+            // Eventos de Botões
+            createNewSiteButton.addEventListener('click', showCreateSiteView);
+            backToLibraryButton.addEventListener('click', showLibraryView);
+            saveProjectButton.addEventListener('click', saveProject);
+            testProjectButton.addEventListener('click', showTestSiteView);
+            downloadProjectButton.addEventListener('click', downloadProject);
+            resetScriptButton.addEventListener('click', resetScript);
+            backToEditorButton.addEventListener('click', showCreateSiteView);
 
+            // Exibir a mensagem de apoio
+            supportButton.addEventListener('click', () => {
+                supportMessage.style.display = 'block';
+            });
+
+            // Fechar a mensagem de apoio
+            closeSupportMessageButton.addEventListener('click', () => {
+                supportMessage.style.display = 'none';
+            });
+
+            // Inicializa a tela de biblioteca
+            showLibraryView();
+        });
+    </script>
 </body>
 </html>
